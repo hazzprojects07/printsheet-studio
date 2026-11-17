@@ -1,0 +1,38 @@
+{
+  "name": "printsheet-studio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "PrintSheet Studio - automatic PDF manufacturing layout generator (runs 100% in the browser)",
+  "scripts": {
+    "predev": "node scripts/copy-pdf-assets.mjs",
+    "dev": "next dev",
+    "prebuild": "node scripts/copy-pdf-assets.mjs",
+    "build": "next build",
+    "start": "next start",
+    "postinstall": "node scripts/copy-pdf-assets.mjs",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "samples": "node scripts/make-sample-pdfs.mjs",
+    "verify-pdf": "node scripts/verify-pdf.mjs"
+  },
+  "dependencies": {
+    "next": "^15.1.0",
+    "pdf-lib": "^1.17.1",
+    "pdfjs-dist": "4.10.38",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
