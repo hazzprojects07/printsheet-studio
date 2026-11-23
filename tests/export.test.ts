@@ -81,7 +81,7 @@ test('export works with rotated source pages, crops and an off-origin crop box',
   assert.equal(layout.valid, true, layout.errors.join('; '));
   const report = await buildManufacturingPdf({
     layout, designs, sources: new Map([['f', bytes]]),
-    sheetW: s.sheetW, sheetH: s.sheetH, cuttingMarks: false, gapX: s.gapX, gapY: s.gapY,
+    sheetW: s.sheetW, sheetH: s.sheetH,
   });
   assert.equal(report.cardsPlaced, 5);
   assert.equal(report.verification.ok, true);
