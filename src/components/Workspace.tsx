@@ -194,7 +194,6 @@ export default function Workspace() {
         sources,
         sheetW: settings.sheetW,
         sheetH: settings.sheetH,
-        cuttingMarks: settings.cuttingMarks,
         gapX: settings.gapX,
         gapY: settings.gapY,
         onProgress: (done, total, label) => setExporting({ done, total, label }),
@@ -229,7 +228,7 @@ export default function Workspace() {
     { n: 1, t: 'Upload PDFs', done: readyFiles > 0, href: '#step-1' },
     { n: 2, t: 'Configure Sheet', done: canArrange, href: '#step-2' },
     { n: 3, t: 'Automatic Arrangement', done: arranged && layout.valid, href: '#step-3' },
-    { n: 4, t: 'Download PDF', done: !!report, href: '#step-4' },
+    { n: 4, t: 'Download sheet', done: !!report, href: '#step-4' },
   ];
 
   return (
@@ -327,7 +326,7 @@ export default function Workspace() {
         )}
       </Section>
 
-      <Section id="step-4" step={4} title="Download PDF" subtitle="Builds the manufacturing PDF from your original files (vector artwork stays vector) and checks it before download.">
+      <Section id="step-4" step={4} title="Download manufacturing sheet" subtitle="Exports only the original vector artwork and checks the finished sheet. No coloured guides, card borders, or cutting lines are added.">
         {!arranged || !canArrange ? (
           <p className="text-sm text-gray-500">Arrange the cards first (step 3).</p>
         ) : (
@@ -345,7 +344,7 @@ export default function Workspace() {
             <ValidationList layout={layout} />
             <div className="flex flex-wrap items-center gap-4">
               <Button variant="primary" size="lg" disabled={!layout.valid || !!exporting} onClick={download} data-testid="download">
-                {exporting ? 'Generating…' : 'DOWNLOAD MANUFACTURING PDF'}
+                {exporting ? 'Generating…' : 'DOWNLOAD CLEAN MANUFACTURING PDF'}
               </Button>
               {layout.valid && layout.stats.sheetCount > 0 && (
                 <span className="text-sm text-gray-500">
@@ -368,7 +367,7 @@ export default function Workspace() {
               </Notice>
             )}
             {report && (
-              <Notice tone="success" title="Manufacturing PDF downloaded">
+              <Notice tone="success" title="Clean manufacturing PDF downloaded">
                 {report.fileName} – {report.sheets} sheet{report.sheets === 1 ? '' : 's'}, {report.cardsPlaced} cards. The file was re-opened and checked:
                 page count and physical page size are correct.
                 {report.limitations.length > 0 && (
