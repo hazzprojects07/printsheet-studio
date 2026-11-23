@@ -69,7 +69,6 @@ export interface LayoutSettings {
   fitMode: FitMode;
   allowRotate: boolean;
   arrangeMode: ArrangeMode;
-  cuttingMarks: boolean;
 }
 
 export const DEFAULT_SETTINGS: LayoutSettings = {
@@ -88,5 +87,4 @@ export const DEFAULT_SETTINGS: LayoutSettings = {
   fitMode: 'contain',
   allowRotate: true,
   arrangeMode: 'mixed',
-  cuttingMarks: false,
 };
