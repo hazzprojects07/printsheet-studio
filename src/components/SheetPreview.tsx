@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { PlannedLayout } from '../lib/layout';
 import type { LayoutSettings, Unit } from '../lib/types';
 import { formatLength, formatNumber } from '../lib/units';
