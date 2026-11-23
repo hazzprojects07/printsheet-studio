@@ -69,7 +69,6 @@ export interface LayoutSettings {
   fitMode: FitMode;
   allowRotate: boolean;
   arrangeMode: ArrangeMode;
-  cuttingMarks: boolean;
 }
 
 export const DEFAULT_SETTINGS: LayoutSettings = {
@@ -79,8 +78,8 @@ export const DEFAULT_SETTINGS: LayoutSettings = {
   marginRight: 10,
   marginBottom: 10,
   marginLeft: 10,
-  gapX: 3,
-  gapY: 3,
+  gapX: 0,
+  gapY: 0,
   cardSizeMode: 'common',
   cardW: 114.3,
   cardH: 114.3,
@@ -88,5 +87,4 @@ export const DEFAULT_SETTINGS: LayoutSettings = {
   fitMode: 'contain',
   allowRotate: true,
   arrangeMode: 'mixed',
-  cuttingMarks: false,
 };

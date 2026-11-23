@@ -174,10 +174,6 @@ export function ConfigSection({
             </span>
           </label>
         </div>
-        <label className="mt-3 flex items-center gap-2 text-sm">
-          <input type="checkbox" checked={s.cuttingMarks} onChange={(e) => onChange({ cuttingMarks: e.target.checked })} />
-          Add thin cutting marks at card corners (needs a gap of at least 1 mm)
-        </label>
       </fieldset>
 
       {quick && (

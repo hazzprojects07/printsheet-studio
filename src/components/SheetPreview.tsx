@@ -1,13 +1,10 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { PlannedLayout } from '../lib/layout';
-import { cuttingMarkLines } from '../lib/marks';
 import type { LayoutSettings, Unit } from '../lib/types';
 import { formatLength, formatNumber } from '../lib/units';
 import { Button, Stat } from './ui';
-
-const COLORS = ['#c7d2fe', '#fde68a', '#a7f3d0', '#fecaca', '#ddd6fe', '#bae6fd', '#fbcfe8', '#d9f99d'];
 
 export function SheetPreview({
   layout,
@@ -26,12 +23,10 @@ export function SheetPreview({
   const [sheetIdx, setSheetIdx] = useState(0);
   const [zoom, setZoom] = useState<number | 'fit'>('fit');
   const [showNames, setShowNames] = useState(false);
-  const [showMarks, setShowMarks] = useState(s.cuttingMarks);
   const [showImages, setShowImages] = useState(true);
   const box = useRef<HTMLDivElement>(null);
   const [boxW, setBoxW] = useState(900);
 
-  useEffect(() => setShowMarks(s.cuttingMarks), [s.cuttingMarks]);
   useEffect(() => {
     const el = box.current;
     if (!el || typeof ResizeObserver === 'undefined') return;
@@ -44,17 +39,6 @@ export function SheetPreview({
   const total = layout.pack.sheets.length;
   const idx = Math.min(sheetIdx, Math.max(0, total - 1));
   const sheet = layout.pack.sheets[idx];
-
-  const colorFor = useMemo(() => {
-    const map = new Map<string, string>();
-    layout.items.forEach((it, i) => map.set(it.id, COLORS[i % COLORS.length]));
-    return (id: string) => map.get(id) ?? '#e5e7eb';
-  }, [layout.items]);
-
-  const marks = useMemo(
-    () => (sheet && showMarks ? cuttingMarkLines(sheet.placements, s.sheetW, s.sheetH, s.gapX, s.gapY) : { lines: [] }),
-    [sheet, showMarks, s.sheetW, s.sheetH, s.gapX, s.gapY],
-  );
 
   if (!sheet) return null;
 
@@ -115,9 +99,6 @@ export function SheetPreview({
         </Button>
         <span className="mx-2 h-5 w-px bg-gray-300" />
         <label className="flex items-center gap-1.5 text-sm">
-          <input type="checkbox" checked={showMarks} onChange={(e) => setShowMarks(e.target.checked)} /> Cutting marks
-        </label>
-        <label className="flex items-center gap-1.5 text-sm">
           <input type="checkbox" checked={showNames} onChange={(e) => setShowNames(e.target.checked)} /> Names
         </label>
         <label className="flex items-center gap-1.5 text-sm">
@@ -136,19 +117,6 @@ export function SheetPreview({
           data-testid="sheet-svg"
         >
           <rect x={0} y={0} width={s.sheetW} height={s.sheetH} fill="#fff" />
-          {/* margins */}
-          <rect
-            x={s.marginLeft}
-            y={s.marginTop}
-            width={s.sheetW - s.marginLeft - s.marginRight}
-            height={s.sheetH - s.marginTop - s.marginBottom}
-            fill="none"
-            stroke="#f43f5e"
-            strokeWidth={0.35}
-            strokeDasharray="2 1.5"
-            vectorEffect="non-scaling-stroke"
-            style={{ strokeWidth: 1 }}
-          />
           {sheet.placements.map((p, i) => {
             const a = layout.art[p.itemId];
             const img = previews[p.itemId];
@@ -167,7 +135,6 @@ export function SheetPreview({
                 <clipPath id={cx}>
                   <rect x={p.x} y={p.y} width={p.w} height={p.h} />
                 </clipPath>
-                <rect x={p.x} y={p.y} width={p.w} height={p.h} fill={colorFor(p.itemId)} />
                 {showImages && img && art && (
                   <g clipPath={`url(#${cx})`}>
                     {p.rotated ? (
@@ -185,7 +152,6 @@ export function SheetPreview({
                     )}
                   </g>
                 )}
-                <rect x={p.x} y={p.y} width={p.w} height={p.h} fill="none" stroke="#4f46e5" strokeWidth={1} vectorEffect="non-scaling-stroke" />
                 {showNames && (
                   <text
                     x={p.x + p.w / 2}
@@ -204,14 +170,10 @@ export function SheetPreview({
               </g>
             );
           })}
-          {marks.lines.map((l, i) => (
-            <line key={i} x1={l.x1} y1={l.y1} x2={l.x2} y2={l.y2} stroke="#000" strokeWidth={1} vectorEffect="non-scaling-stroke" />
-          ))}
         </svg>
       </div>
       <p className="text-xs text-gray-500">
-        Red dashed line = margins · blue outline = card boundary · the preview is for checking the layout; the downloaded PDF uses the original
-        vector artwork.
+        Preview shows the artwork and spacing only. Guide borders and cutting lines are intentionally hidden; the manufacturing PDF contains no added lines.
       </p>
     </div>
   );

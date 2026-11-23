@@ -3,24 +3,17 @@ import {
   PDFName,
   PDFRef,
   clip,
-  grayscale,
   concatTransformationMatrix,
   drawObject,
   endPath,
-  lineTo,
-  moveTo,
   popGraphicsState,
   pushGraphicsState,
   rectangle,
-  setLineWidth,
-  setStrokingColor,
-  stroke,
   type PDFEmbeddedPage,
   type PDFPage,
 } from 'pdf-lib';
 import { placementTransform } from './geometry';
 import type { PlannedLayout } from './layout';
-import { MARK_LINE_WIDTH_PT, cuttingMarkLines } from './marks';
 import type { Crop } from './types';
 import { PT_PER_MM } from './units';
 
@@ -40,9 +33,6 @@ export interface ExportInput {
   sources: Map<string, Uint8Array>;
   sheetW: number; // mm
   sheetH: number; // mm
-  cuttingMarks: boolean;
-  gapX: number;
-  gapY: number;
   onProgress?: (done: number, total: number, label: string) => void;
 }
 
@@ -235,22 +225,6 @@ export async function buildManufacturingPdf(input: ExportInput): Promise<ExportR
       );
     }
 
-    if (input.cuttingMarks) {
-      const { lines, warning } = cuttingMarkLines(sheet.placements, input.sheetW, input.sheetH, input.gapX, input.gapY);
-      if (warning && !limitations.includes(warning)) limitations.push(warning);
-      if (lines.length) {
-        const ops = [pushGraphicsState(), setLineWidth(MARK_LINE_WIDTH_PT), setStrokingColor(grayscale(0))];
-        for (const l of lines) {
-          ops.push(
-            moveTo(l.x1 * PT_PER_MM, (input.sheetH - l.y1) * PT_PER_MM),
-            lineTo(l.x2 * PT_PER_MM, (input.sheetH - l.y2) * PT_PER_MM),
-            stroke(),
-          );
-        }
-        ops.push(popGraphicsState());
-        page.pushOperators(...ops);
-      }
-    }
     await yieldToUi();
   }
   input.onProgress?.(total, total, 'Saving PDF…');
