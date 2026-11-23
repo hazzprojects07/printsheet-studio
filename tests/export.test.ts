@@ -33,7 +33,7 @@ test('export: correct page count, exact page size, all cards placed', async () =
   const src = await makeSource(5);
   const report = await buildManufacturingPdf({
     layout, designs, sources: new Map([['f', src]]),
-    sheetW: s.sheetW, sheetH: s.sheetH, cuttingMarks: false, gapX: s.gapX, gapY: s.gapY,
+    sheetW: s.sheetW, sheetH: s.sheetH, 
   });
   assert.equal(report.sheets, 12);
   assert.equal(report.cardsPlaced, 70);
@@ -52,7 +52,7 @@ test('export: each source page is embedded once, not once per copy (small output
   const src = await makeSource(1);
   const report = await buildManufacturingPdf({
     layout, designs, sources: new Map([['f', src]]),
-    sheetW: s.sheetW, sheetH: s.sheetH, cuttingMarks: true, gapX: s.gapX, gapY: s.gapY,
+    sheetW: s.sheetW, sheetH: s.sheetH, 
   });
   assert.equal(report.cardsPlaced, 60);
   assert.ok(report.bytes.length < 60 * 1024, `unexpectedly large: ${report.bytes.length}`);
@@ -93,7 +93,7 @@ test('export refuses an invalid layout', async () => {
   assert.equal(layout.valid, false);
   await assert.rejects(() =>
     buildManufacturingPdf({
-      layout, designs, sources: new Map(), sheetW: s.sheetW, sheetH: s.sheetH, cuttingMarks: false, gapX: 3, gapY: 3,
+      layout, designs, sources: new Map(), sheetW: s.sheetW, sheetH: s.sheetH, 
     }),
   );
 });
