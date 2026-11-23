@@ -7,9 +7,6 @@ import {
   drawObject,
   endPath,
   rectangle,
-  setLineWidth,
-  setStrokingColor,
-  stroke,
   type PDFEmbeddedPage,
   type PDFPage,
 } from 'pdf-lib';
