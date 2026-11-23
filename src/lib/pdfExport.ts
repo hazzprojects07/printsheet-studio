@@ -3,7 +3,6 @@ import {
   PDFName,
   PDFRef,
   clip,
-  grayscale,
   concatTransformationMatrix,
   drawObject,
   endPath,
