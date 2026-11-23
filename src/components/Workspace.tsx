@@ -282,7 +282,7 @@ export default function Workspace() {
         </div>
       </Section>
 
-      <Section id="step-2" step={2} title="Configure Sheet" subtitle="Card size, sheet size, margins and spacing. Defaults: 114.3 mm card, 3 mm gaps, 10 mm margins.">
+      <Section id="step-2" step={2} title="Configure Sheet" subtitle="Card size, sheet size, margins and spacing. Defaults: 114.3 mm card, 0 mm gaps, 10 mm margins.">
         <ConfigSection settings={settings} unit={unit} onUnit={setUnit} onChange={patchSettings} />
       </Section>
 
