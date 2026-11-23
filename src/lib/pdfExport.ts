@@ -6,6 +6,8 @@ import {
   concatTransformationMatrix,
   drawObject,
   endPath,
+  popGraphicsState,
+  pushGraphicsState,
   rectangle,
   type PDFEmbeddedPage,
   type PDFPage,

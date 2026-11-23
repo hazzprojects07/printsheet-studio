@@ -194,8 +194,6 @@ export default function Workspace() {
         sources,
         sheetW: settings.sheetW,
         sheetH: settings.sheetH,
-        gapX: settings.gapX,
-        gapY: settings.gapY,
         onProgress: (done, total, label) => setExporting({ done, total, label }),
       });
       const fileName = `printsheet-${new Date().toISOString().slice(0, 10)}-${res.sheets}sheets.pdf`;
